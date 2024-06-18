@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-sm my-5">
+    <div class="card text-start p-4">
+        <h2>Inscription</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if error %}
+            <div class="alert alert-danger" role="alert" data-mdb-color="danger">
+                {% if msgEmail %}
+                    {{msgEmail}}
+                {% endif %}
+                {% if msgPassword %}
+                    {{msgPassword}}
+                {% endif %}
+            </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="username" class="form-label">Nom D'utilisateur</label>
+                <input type="text" class="form-control" name="username" id="username" />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelpId"
+                    placeholder="abc@mail.com" />
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Abcd123!" />
+            </div>
+            <div class="mb-3">
+                <label for="repassword" class="form-label">Confirmer mot de passe</label>
+                <input type="password" class="form-control" name="repassword" id="repassword" placeholder="Abcd123!" />
+            </div>
+            <div class="mb-3">
+                <label for="profile_picture" class="form-label">Photo</label>
+                <input type="file" class="form-control" name="profile_picture" id="profile_picture" placeholder="Mettre votre photo"
+                    aria-describedby="fileHelpId" />
+            </div>
+            <div class="mb-3">
+                <label for="date_of_birth" class="form-label">Date de naissance</label>
+                <input type="date" class="form-control" name="date_of_birth" id="date_of_birth" />
+            </div>
+            <div class="mb-3">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea class="form-control" name="bio" id="bio" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                Inscrire
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

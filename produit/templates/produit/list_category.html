@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid my-5">
+    <div class="card p-4">
+        <h2>Liste des Catégories</h2>
+        <form method="post" class="w-full">
+            {% csrf_token %}
+            <div class="d-flex justify-content-end my-2 my-lg-0 gap-4">
+                <input type="text" class="form-control w-25" name="name_category" placeholder="Nom de la catégorie" />
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+            </div>
+        </form>
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Nom Categorie</th>
+                <th>Statut</th>
+            </tr>
+            {% for category in all_categories %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ category.name_category }}</td>
+                <td class="d-flex">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ forloop.counter }}">
+                        Modifier
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal-{{ forloop.counter }}" tabindex="-1" aria-labelledby="modalLabel-{{ forloop.counter }}"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="modalLabel-{{ forloop.counter }}">Modifier catégorie</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Nom Categorie</span>
+                                            <input type="text" class="form-control" name="name_category"
+                                                value="{{ category.name_category }}" placeholder="Nom de la catégorie"
+                                                aria-label="Nom de la catégorie" aria-describedby="basic-addon1">
+                                            <input type="hidden" name="id_category" value="{{ category.id_category }}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post" class="ms-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" name="delete_category" value="{{ category.id_category }}">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
